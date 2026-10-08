@@ -1,0 +1,43 @@
+{
+  "formatVersion": 1,
+  "game": "minecraft",
+  "versionId": "1.1.0",
+  "name": "Holoplayer",
+  "summary": "Fight an AI that plays like you. Fabric 26.3 + Fabric API + the Holoplayer Accuracy Mod, with the server ready to join.",
+  "files": [
+    {
+      "path": "mods/fabric-api-0.161.0+26.3.jar",
+      "hashes": {
+        "sha1": "53f9ee02c3702734d90520aa8c9719bf0e1c8d4f",
+        "sha512": "ed6b2586d6fde11fde8472f5a527c51e99b67026e46f94d4bfd85e7e28ce5ee299173ee16ad576ceb51f39f98d30a811086a6deb1a86a524859cc16e12da109d"
+      },
+      "env": {
+        "client": "required",
+        "server": "unsupported"
+      },
+      "downloads": [
+        "https://cdn.modrinth.com/data/P7dR8mSH/versions/bNnaTiuM/fabric-api-0.161.0%2B26.3.jar"
+      ],
+      "fileSize": 2620967
+    },
+    {
+      "path": "mods/holo-input-recorder-1.4.0.jar",
+      "hashes": {
+        "sha1": "634f4a0758eb7c4d9f5cbe3d95ae41412d25c216",
+        "sha512": "5b746e40ef3edad3017a9b47bb50ca509990f364bb4240458fbea928a7ecb4ac17f6afaf59e7bbb2bb543f2ba53fc53b917475042e33963ae7596ed469f58207"
+      },
+      "env": {
+        "client": "required",
+        "server": "unsupported"
+      },
+      "downloads": [
+        "https://github.com/ApocalypseGamer1/holo-input-recorder/releases/download/v1.4.0/holo-input-recorder-1.4.0.jar"
+      ],
+      "fileSize": 50730
+    }
+  ],
+  "dependencies": {
+    "minecraft": "26.3",
+    "fabric-loader": "0.19.5"
+  }
+}
