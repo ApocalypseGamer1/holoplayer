@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#100b0d">
-  <meta name="description" content="Set up Minecraft Java 26.3 to play on the Holoplayer public beta.">
+  <meta name="description" content="Set up Minecraft Java 26.3 or 26.2 to play on the Holoplayer public beta.">
   <title>Holoplayer — Setup</title>
   <link rel="icon" type="image/png" href="assets/icon.png">
   <style>
@@ -17,6 +17,7 @@
       --line: rgba(255,255,255,.1);
       --red: #ff334f;
       --shadow: 0 24px 80px rgba(0,0,0,.36);
+      --bar: rgba(16,11,13,.92);
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -32,6 +33,13 @@
     img { display: block; max-width: 100%; }
     a { color: inherit; }
     .wrap { width: min(1120px, calc(100% - 32px)); margin-inline: auto; }
+    .picker { position: sticky; top: 0; z-index: 10; border-bottom: 1px solid rgba(255,51,79,.35); background: var(--bar); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .picker .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; min-height: 64px; padding: 10px 0; }
+    .picker label { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-weight: 720; font-size: .95rem; }
+    .picker .grow { flex: 1 1 auto; }
+    select { min-height: 40px; padding: 0 36px 0 12px; border: 1px solid rgba(255,51,79,.55); border-radius: 9px; background: #1d1619 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ff7083' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 12px center; color: #fff8f8; font: inherit; font-weight: 700; appearance: none; -webkit-appearance: none; cursor: pointer; }
+    select:focus-visible, .button:focus-visible, a:focus-visible { outline: 2px solid #ff7083; outline-offset: 2px; }
+    .picker .hint { color: var(--muted); font-size: .85rem; font-weight: 500; }
     .hero { position: relative; min-height: 650px; overflow: hidden; border-bottom: 1px solid var(--line); isolation: isolate; }
     .hero-bg { position: absolute; z-index: -3; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(.82) contrast(1.08) brightness(.62); }
     .hero::before {
@@ -43,13 +51,13 @@
     .brand { display: flex; align-items: center; gap: 12px; font-weight: 780; letter-spacing: -.02em; }
     .brand img { width: 42px; height: 42px; border-radius: 11px; box-shadow: 0 0 28px rgba(255,51,79,.2); }
     .nav-label { color: var(--muted); font-size: .9rem; font-weight: 650; }
-    .hero-copy { max-width: 680px; padding: 105px 0 150px; }
+    .hero-copy { max-width: 680px; padding: 90px 0 150px; }
     .eyebrow { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 20px; color: #ffd8de; font-size: .75rem; font-weight: 780; letter-spacing: .12em; text-transform: uppercase; }
     .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--red); box-shadow: 0 0 16px var(--red); }
-    h1 { margin: 0; font-size: clamp(3.3rem, 8vw, 6.4rem); line-height: .91; letter-spacing: -.075em; }
+    h1 { margin: 0; font-size: clamp(3.1rem, 8vw, 6.4rem); line-height: .91; letter-spacing: -.075em; }
     .tagline { margin: 28px 0 0; font-size: clamp(1.25rem, 3vw, 1.65rem); color: #e7dfe1; letter-spacing: -.025em; }
     .hero-actions { display: flex; align-items: center; gap: 18px; margin-top: 36px; }
-    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px; border: 1px solid transparent; border-radius: 10px; background: var(--red); box-shadow: 0 10px 34px rgba(255,40,71,.27); color: #fff; font-weight: 760; text-decoration: none; transition: transform .18s ease, background .18s ease; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px; border: 1px solid transparent; border-radius: 10px; background: var(--red); box-shadow: 0 10px 34px rgba(255,40,71,.27); color: #fff; font-weight: 760; text-decoration: none; text-align: center; transition: transform .18s ease, background .18s ease; }
     .button:hover { transform: translateY(-2px); background: #ff4b64; }
     .edition { color: #cabec2; font-size: .9rem; }
     main { padding: 96px 0 80px; }
@@ -63,8 +71,8 @@
     .step::after { content: counter(steps, decimal-leading-zero); position: absolute; right: 18px; bottom: -27px; color: rgba(255,255,255,.035); font-size: 7.5rem; font-weight: 900; line-height: 1; letter-spacing: -.08em; pointer-events: none; }
     .step-num { display: grid; place-items: center; width: 34px; height: 34px; margin-bottom: 32px; border: 1px solid rgba(255,51,79,.45); border-radius: 9px; background: rgba(255,51,79,.11); color: #ff7083; font-size: .78rem; font-weight: 830; }
     .step h3 { margin: 0 0 9px; font-size: 1.13rem; line-height: 1.3; letter-spacing: -.018em; }
-    .step p { position: relative; z-index: 1; margin: 0; color: var(--muted); font-size: .93rem; }
-    .step a { display: inline-flex; margin-top: 18px; color: #ff7587; font-size: .9rem; font-weight: 750; text-underline-offset: 4px; }
+    .step p { position: relative; z-index: 1; margin: 0 0 8px; color: var(--muted); font-size: .93rem; }
+    .step a { display: inline-flex; margin-top: 10px; margin-right: 14px; color: #ff7587; font-size: .9rem; font-weight: 750; text-underline-offset: 4px; }
     code, kbd { padding: 2px 6px; border: 1px solid var(--line); border-radius: 5px; background: rgba(255,255,255,.055); color: var(--text); font: .82em ui-monospace, SFMono-Regular, Consolas, monospace; overflow-wrap: anywhere; }
     .accuracy { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 84px; padding: 18px; border: 1px solid var(--line); border-radius: 22px; background: var(--surface); box-shadow: var(--shadow); }
     .accuracy-copy { padding: clamp(22px, 5vw, 52px); align-self: center; }
@@ -74,31 +82,37 @@
     .quick { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; margin: 0 0 22px; padding: 24px 28px; border: 1px solid rgba(255,51,79,.45); border-radius: 18px; background: linear-gradient(135deg, rgba(255,51,79,.14), transparent 60%), var(--surface); box-shadow: var(--shadow); }
     .quick h3 { margin: 0 0 6px; font-size: 1.15rem; }
     .quick p { margin: 0; color: var(--muted); font-size: .93rem; max-width: 560px; }
+    .quick .small { margin-top: 8px; font-size: .84rem; }
     .or { margin: 0 0 18px; color: var(--muted); font-size: .9rem; text-align: center; }
     footer { border-top: 1px solid var(--line); }
     footer .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 96px; color: var(--muted); font-size: .85rem; }
     footer img { width: 28px; height: 28px; border-radius: 8px; opacity: .82; }
     @media (max-width: 760px) {
-      .hero { min-height: 620px; }
-      .hero-copy { padding: 100px 0 130px; }
+      .hero { min-height: 600px; }
+      .hero-copy { padding: 80px 0 120px; }
       .hero::before { background: linear-gradient(90deg, rgba(7,5,6,.9), rgba(9,6,7,.45)), linear-gradient(0deg, var(--bg), transparent 45%); }
       .section-head, .accuracy { grid-template-columns: 1fr; }
       .section-intro { justify-self: start; }
       .step, .step:nth-child(4), .step:nth-child(5) { grid-column: span 12; min-height: 0; }
       .step { padding: 24px; }
       .step-num { margin-bottom: 22px; }
+      .picker { position: static; }
+      .picker .hint { display: none; }
     }
     @media (max-width: 440px) {
       .nav-label { display: none; }
       .hero-actions { align-items: flex-start; flex-direction: column; }
       main { padding-top: 72px; }
+      .quick { padding: 20px; }
+      .quick .button { width: 100%; }
       .accuracy { margin-top: 64px; padding: 10px; }
       .accuracy-copy { padding: 22px 14px 26px; }
     }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; } }
     @media (prefers-color-scheme: light) {
-      :root { color-scheme: light; --bg: #f7f3f4; --surface: #fff; --text: #20191b; --muted: #716468; --line: rgba(55,25,33,.13); --shadow: 0 24px 70px rgba(68,36,44,.11); }
+      :root { color-scheme: light; --bg: #f7f3f4; --surface: #fff; --text: #20191b; --muted: #716468; --line: rgba(55,25,33,.13); --shadow: 0 24px 70px rgba(68,36,44,.11); --bar: rgba(255,250,251,.94); }
       body { background: radial-gradient(circle at 50% -15%, rgba(255,51,79,.11), transparent 34rem), var(--bg); }
+      select { background-color: #fff; color: #20191b; }
       .hero { color: #fff8f8; }
       .hero .nav-label, .hero .edition { color: #d9cdd0; }
       .step::after { color: rgba(50,20,28,.04); }
@@ -107,71 +121,229 @@
   </style>
 </head>
 <body>
+  <div class="picker" role="region" aria-label="Version and language">
+    <div class="wrap">
+      <label><span data-t="pick">Which Minecraft (Fabric) version do you play on?</span>
+        <select id="mc">
+          <option value="26.3">Minecraft 26.3</option>
+          <option value="26.2">Minecraft 26.2</option>
+        </select>
+      </label>
+      <span class="hint grow" data-t="pickHint">Every step and download below changes to match.</span>
+      <label><span data-t="lang">Language</span>
+        <select id="lang">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+        </select>
+      </label>
+    </div>
+  </div>
   <header class="hero">
-    <img class="hero-bg" src="assets/lobby-spawn-night.jpg" alt="Holoplayer lobby at night">
+    <img class="hero-bg" src="assets/lobby-spawn-night.jpg" alt="Holoplayer lobby at night" data-alt="heroAlt">
     <nav class="nav wrap" aria-label="Main navigation">
       <div class="brand"><img src="assets/icon.png" alt="">Holoplayer</div>
-      <span class="nav-label">Setup guide ↓</span>
+      <span class="nav-label" data-t="navLabel">Setup guide ↓</span>
     </nav>
     <div class="hero-copy wrap">
-      <p class="eyebrow">Public beta · Minecraft Java 26.3</p>
-      <h1>Fight an AI that<br>plays like you.</h1>
-      <p class="tagline">Train your holoplayer. Then face yourself.</p>
+      <p class="eyebrow" data-t="eyebrow">Public beta · Minecraft Java 26.3</p>
+      <h1 data-t="h1">Fight an AI that<br>plays like you.</h1>
+      <p class="tagline" data-t="tagline">Train your holoplayer. Then face yourself.</p>
       <div class="hero-actions">
-        <a class="button" href="#setup">Start setup&nbsp; →</a>
-        <span class="edition">Five quick steps</span>
+        <a class="button" href="#setup" data-t="start">Start setup&nbsp; →</a>
+        <span class="edition" data-t="edition">Five quick steps</span>
       </div>
     </div>
   </header>
   <main class="wrap">
     <section id="setup" aria-labelledby="setup-title">
       <div class="section-head">
-        <div><p class="kicker">Get ready</p><h2 id="setup-title">Set up Holoplayer</h2></div>
-        <p class="section-intro">Install Fabric and two mods, then launch Minecraft. All downloads open their official pages.</p>
+        <div><p class="kicker" data-t="kicker">Get ready</p><h2 id="setup-title" data-t="setupTitle">Set up Holoplayer</h2></div>
+        <p class="section-intro" data-t="intro">Install Fabric and two mods, then launch Minecraft. All downloads open their official pages.</p>
       </div>
       <div class="quick">
-        <div><p class="kicker">Fastest · one click</p><h3>Holoplayer modpack</h3>
-          <p>Have the <a href="https://modrinth.com/app">Modrinth App</a> or <a href="https://prismlauncher.org/">Prism Launcher</a>? Import this file and press Play. Fabric, both mods and both servers (North America and Europe) are set up for you.</p></div>
-        <a class="button" href="Holoplayer.mrpack" download>Download modpack&nbsp; ↓</a>
+        <div><p class="kicker" data-t="quickKicker">Fastest · one click</p><h3 data-t="quickTitle">Holoplayer modpack</h3>
+          <p data-t="quickText"></p>
+          <p class="small" data-t="quickSmall"></p></div>
+        <a class="button" id="pack" href="Holoplayer-26.3.mrpack" download data-t="quickButton">Download modpack&nbsp; ↓</a>
       </div>
-      <p class="or">or set it up yourself in the normal Minecraft Launcher:</p>
+      <p class="or" data-t="or">or set it up yourself in the normal Minecraft Launcher:</p>
       <ol class="steps">
         <li class="step">
-          <span class="step-num">01</span><h3>Install Fabric for 26.3</h3>
-          <p>Open the installer, pick Minecraft <strong>26.3</strong>, then click <strong>Install</strong>.</p>
-          <a href="https://fabricmc.net/use/installer/">Get Fabric →</a>
+          <span class="step-num">01</span><h3 data-t="s1Title"></h3>
+          <p data-t="s1Text"></p>
+          <a href="https://fabricmc.net/use/installer/" data-t="s1Link">Get Fabric →</a>
         </li>
         <li class="step">
-          <span class="step-num">02</span><h3>Get Fabric API</h3>
-          <p>Download the Fabric API version made for Minecraft 26.3.</p>
-          <a href="https://modrinth.com/mod/fabric-api/versions?g=26.3">Open Modrinth →</a>
+          <span class="step-num">02</span><h3 data-t="s2Title">Get Fabric API</h3>
+          <p data-t="s2Text"></p>
+          <a id="api" href="https://modrinth.com/mod/fabric-api/versions?g=26.3" data-t="s2Link">Open Modrinth →</a>
         </li>
         <li class="step">
-          <span class="step-num">03</span><h3>Get the Accuracy Mod</h3>
-          <p>Download the latest Holoplayer Accuracy Mod release.</p>
-          <a href="https://github.com/ApocalypseGamer1/holo-input-recorder/releases/latest">Open GitHub →</a>
+          <span class="step-num">03</span><h3 data-t="s3Title">Get the Accuracy Mod</h3>
+          <p data-t="s3Text"></p>
+          <a id="mod" href="#" data-t="s3Link">Download the mod ↓</a>
+          <a id="release" href="#" data-t="s3Page">Release page →</a>
         </li>
         <li class="step">
-          <span class="step-num">04</span><h3>Move both files</h3>
-          <p>On Windows, press <kbd>Win</kbd> + <kbd>R</kbd>, paste <code>%APPDATA%\.minecraft\mods</code>, and put both new mod files there.</p>
+          <span class="step-num">04</span><h3 data-t="s4Title">Move both files</h3>
+          <p data-t="s4Text"></p>
         </li>
         <li class="step">
-          <span class="step-num">05</span><h3>Launch and join</h3>
-          <p>In the Minecraft Launcher, choose the <code>fabric-loader-26.3</code> profile. Start the game and join the server closest to you:</p>
-          <p>North America: <code>srv8000.godlike.club:26184</code><br>Europe: <code>srv4507.godlike.club:27270</code></p>
-          <p>Your progress is the same on both. Type <code>/region</code> in game to switch.</p>
+          <span class="step-num">05</span><h3 data-t="s5Title">Launch and join</h3>
+          <p data-t="s5Text"></p>
+          <p><span data-t="na">North America</span>: <code>srv8000.godlike.club:26184</code><br><span data-t="eu">Europe</span>: <code>srv4507.godlike.club:27270</code></p>
+          <p data-t="s5Region"></p>
         </li>
       </ol>
     </section>
     <section class="accuracy" aria-labelledby="accuracy-title">
       <div class="accuracy-copy">
-        <p class="kicker">A closer copy of how you play</p><h2 id="accuracy-title">What the Holoplayer Accuracy Mod does</h2>
-        <p>The mod sends exact mouse and key timing only during rounds you agreed to record, through your normal Minecraft connection. This makes your holoplayer copy you more closely.</p>
-        <p><strong>Data protection:</strong> To keep the training data clean, the mod also sends the server the list of your installed mods and a check that the mod itself hasn't been changed. This is only used to detect cheating, tampering with the data, and mods that aren't allowed on the server (such as combat recorders). From version 1.4.0 the list includes a SHA-512 fingerprint of each mod file, the same code Modrinth uses to identify a mod version, plus a random install id the mod stores in its own config folder (not from your hardware or account, resettable by deleting the file) so the server can limit abuse from many accounts on one install. The files themselves are never uploaded, and nothing else on your computer is read.</p>
-        <a class="text-link" href="https://github.com/ApocalypseGamer1/holo-input-recorder">Source code →</a>
+        <p class="kicker" data-t="accKicker">A closer copy of how you play</p><h2 id="accuracy-title" data-t="accTitle">What the Holoplayer Accuracy Mod does</h2>
+        <p data-t="acc1"></p>
+        <p data-t="acc2"></p>
+        <a class="text-link" href="https://github.com/ApocalypseGamer1/holo-input-recorder" data-t="source">Source code →</a>
       </div>
     </section>
   </main>
-  <footer><div class="wrap"><span>Holoplayer public beta</span><img src="assets/icon.png" alt=""></div></footer>
+  <footer><div class="wrap"><span data-t="footer">Holoplayer public beta</span><img src="assets/icon.png" alt=""></div></footer>
+  <script>
+    const MOD = '1.8.2';
+    const REPO = 'https://github.com/ApocalypseGamer1/holo-input-recorder/releases';
+    const VERSIONS = {
+      '26.3': { tag: 'v' + MOD, jar: 'holo-input-recorder-' + MOD + '.jar' },
+      '26.2': { tag: 'v' + MOD + '-mc26.2', jar: 'holo-input-recorder-' + MOD + '+mc26.2.jar' }
+    };
+    const T = {
+      en: {
+        title: 'Holoplayer — Setup',
+        pick: 'Which Minecraft (Fabric) version do you play on?',
+        pickHint: 'Every step and download below changes to match.',
+        lang: 'Language',
+        heroAlt: 'Holoplayer lobby at night',
+        navLabel: 'Setup guide ↓',
+        eyebrow: 'Public beta · Minecraft Java {mc}',
+        h1: 'Fight an AI that<br>plays like you.',
+        tagline: 'Train your holoplayer. Then face yourself.',
+        start: 'Start setup&nbsp; →',
+        edition: 'Five quick steps',
+        kicker: 'Get ready',
+        setupTitle: 'Set up Holoplayer',
+        intro: 'Install Fabric and two mods, then launch Minecraft. All downloads open their official pages.',
+        quickKicker: 'Fastest · one click',
+        quickTitle: 'Holoplayer modpack for {mc}',
+        quickText: 'Have the <a href="https://modrinth.com/app">Modrinth App</a> or <a href="https://prismlauncher.org/">Prism Launcher</a>? Import this file and press Play. Minecraft {mc}, Fabric, both mods and both servers (North America and Europe) are set up for you.',
+        quickSmall: 'Already have an older Holoplayer pack? Import this one again to get mod {mod}. Older versions do not show the win bar or the round review.',
+        quickButton: 'Download modpack {mc}&nbsp; ↓',
+        or: 'or set it up yourself in the normal Minecraft Launcher:',
+        s1Title: 'Install Fabric for {mc}',
+        s1Text: 'Open the installer, pick Minecraft <strong>{mc}</strong>, then click <strong>Install</strong>.',
+        s1Link: 'Get Fabric →',
+        s2Title: 'Get Fabric API',
+        s2Text: 'Download the Fabric API version made for Minecraft <strong>{mc}</strong>.',
+        s2Link: 'Open Modrinth →',
+        s3Title: 'Get the Accuracy Mod',
+        s3Text: 'Download Holoplayer Accuracy Mod <strong>{mod}</strong> for Minecraft {mc}: <code>{jar}</code>',
+        s3Link: 'Download the mod ↓',
+        s3Page: 'Release page →',
+        s4Title: 'Move both files',
+        s4Text: 'On Windows, press <kbd>Win</kbd> + <kbd>R</kbd>, paste <code>%APPDATA%\\.minecraft\\mods</code>, and put both new mod files there. Delete any older <code>holo-input-recorder</code> file in that folder first.',
+        s5Title: 'Launch and join',
+        s5Text: 'In the Minecraft Launcher, choose the <code>fabric-loader-{mc}</code> profile. Start the game and join the server closest to you:',
+        na: 'North America',
+        eu: 'Europe',
+        s5Region: 'Your progress is the same on both. Type <code>/region</code> in game to switch.',
+        accKicker: 'A closer copy of how you play',
+        accTitle: 'What the Holoplayer Accuracy Mod does',
+        acc1: 'The mod sends exact mouse and key timing only during rounds you agreed to record, through your normal Minecraft connection. This makes your holoplayer copy you more closely.',
+        acc2: '<strong>Data protection:</strong> To keep the training data clean, the mod also sends the server the list of your installed mods and a check that the mod itself hasn\'t been changed. This is only used to detect cheating, tampering with the data, and mods that aren\'t allowed on the server (such as combat recorders). From version 1.4.0 the list includes a SHA-512 fingerprint of each mod file, the same code Modrinth uses to identify a mod version, plus a random install id the mod stores in its own config folder (not from your hardware or account, resettable by deleting the file) so the server can limit abuse from many accounts on one install. The files themselves are never uploaded, and nothing else on your computer is read.',
+        source: 'Source code →',
+        footer: 'Holoplayer public beta'
+      },
+      es: {
+        title: 'Holoplayer — Instalación',
+        pick: '¿En qué versión de Minecraft (Fabric) juegas?',
+        pickHint: 'Todos los pasos y descargas de abajo cambian para coincidir.',
+        lang: 'Idioma',
+        heroAlt: 'El lobby de Holoplayer de noche',
+        navLabel: 'Guía de instalación ↓',
+        eyebrow: 'Beta pública · Minecraft Java {mc}',
+        h1: 'Pelea contra una IA<br>que juega como tú.',
+        tagline: 'Entrena a tu holoplayer. Luego enfréntate a ti mismo.',
+        start: 'Empezar&nbsp; →',
+        edition: 'Cinco pasos rápidos',
+        kicker: 'Prepárate',
+        setupTitle: 'Instala Holoplayer',
+        intro: 'Instala Fabric y dos mods, y luego abre Minecraft. Todas las descargas abren sus páginas oficiales.',
+        quickKicker: 'Lo más rápido · un clic',
+        quickTitle: 'Modpack de Holoplayer para {mc}',
+        quickText: '¿Tienes la <a href="https://modrinth.com/app">Modrinth App</a> o <a href="https://prismlauncher.org/">Prism Launcher</a>? Importa este archivo y pulsa Jugar. Minecraft {mc}, Fabric, los dos mods y los dos servidores (Norteamérica y Europa) quedan listos.',
+        quickSmall: '¿Ya tienes un modpack de Holoplayer más antiguo? Vuelve a importar este para tener el mod {mod}. Las versiones antiguas no muestran la barra de victoria ni la revisión de la ronda.',
+        quickButton: 'Descargar modpack {mc}&nbsp; ↓',
+        or: 'o instálalo tú mismo en el Minecraft Launcher normal:',
+        s1Title: 'Instala Fabric para {mc}',
+        s1Text: 'Abre el instalador, elige Minecraft <strong>{mc}</strong> y haz clic en <strong>Install</strong>.',
+        s1Link: 'Descargar Fabric →',
+        s2Title: 'Descarga Fabric API',
+        s2Text: 'Descarga la versión de Fabric API hecha para Minecraft <strong>{mc}</strong>.',
+        s2Link: 'Abrir Modrinth →',
+        s3Title: 'Descarga el Accuracy Mod',
+        s3Text: 'Descarga Holoplayer Accuracy Mod <strong>{mod}</strong> para Minecraft {mc}: <code>{jar}</code>',
+        s3Link: 'Descargar el mod ↓',
+        s3Page: 'Página de la versión →',
+        s4Title: 'Mueve los dos archivos',
+        s4Text: 'En Windows, pulsa <kbd>Win</kbd> + <kbd>R</kbd>, pega <code>%APPDATA%\\.minecraft\\mods</code> y pon ahí los dos archivos nuevos. Antes, borra cualquier archivo <code>holo-input-recorder</code> más antiguo de esa carpeta.',
+        s5Title: 'Abre el juego y entra',
+        s5Text: 'En el Minecraft Launcher, elige el perfil <code>fabric-loader-{mc}</code>. Abre el juego y entra al servidor más cercano:',
+        na: 'Norteamérica',
+        eu: 'Europa',
+        s5Region: 'Tu progreso es el mismo en los dos. Escribe <code>/region</code> en el juego para cambiar.',
+        accKicker: 'Una copia más fiel de cómo juegas',
+        accTitle: 'Qué hace el Holoplayer Accuracy Mod',
+        acc1: 'El mod envía el momento exacto de tu ratón y tus teclas solo durante las rondas que aceptaste grabar, por tu conexión normal de Minecraft. Así tu holoplayer te copia mejor.',
+        acc2: '<strong>Protección de datos:</strong> Para mantener limpios los datos de entrenamiento, el mod también envía al servidor la lista de tus mods instalados y una comprobación de que el propio mod no se ha modificado. Esto solo se usa para detectar trampas, cambios en los datos y mods que no están permitidos en el servidor (como grabadores de combate). Desde la versión 1.4.0 la lista incluye una huella SHA-512 de cada archivo de mod, el mismo código que usa Modrinth para identificar una versión de un mod, y un id de instalación aleatorio que el mod guarda en su propia carpeta de configuración (no sale de tu hardware ni de tu cuenta, y se reinicia al borrar el archivo), para que el servidor pueda limitar el abuso de muchas cuentas en una sola instalación. Los archivos nunca se suben, y no se lee nada más de tu ordenador.',
+        source: 'Código fuente →',
+        footer: 'Beta pública de Holoplayer'
+      }
+    };
+
+    function stored(key) {
+      try { return localStorage.getItem(key); } catch (e) { return null; }
+    }
+    function store(key, value) {
+      try { localStorage.setItem(key, value); } catch (e) { /* private window: the choice lasts until reload */ }
+    }
+    function fromUrl(key) {
+      try { return new URLSearchParams(location.search).get(key); } catch (e) { return null; }
+    }
+
+    const mcSelect = document.getElementById('mc');
+    const langSelect = document.getElementById('lang');
+    const browserLang = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
+    let mc = fromUrl('mc') || stored('holo-mc') || '26.3';
+    let lang = fromUrl('lang') || stored('holo-lang') || (browserLang.toLowerCase().startsWith('es') ? 'es' : 'en');
+    if (!VERSIONS[mc]) mc = '26.3';
+    if (!T[lang]) lang = 'en';
+
+    function render() {
+      const v = VERSIONS[mc], text = T[lang];
+      const fill = s => s.replace(/\{mc\}/g, mc).replace(/\{mod\}/g, MOD).replace(/\{jar\}/g, v.jar);
+      document.documentElement.lang = lang;
+      document.title = text.title;
+      document.querySelectorAll('[data-t]').forEach(el => { el.innerHTML = fill(text[el.dataset.t]); });
+      document.querySelectorAll('[data-alt]').forEach(el => { el.alt = text[el.dataset.alt]; });
+      const pack = document.getElementById('pack');
+      pack.href = 'Holoplayer-' + mc + '.mrpack';
+      pack.setAttribute('download', 'Holoplayer-' + mc + '.mrpack');
+      document.getElementById('api').href = 'https://modrinth.com/mod/fabric-api/versions?g=' + mc;
+      document.getElementById('mod').href = REPO + '/download/' + v.tag + '/' + encodeURIComponent(v.jar);
+      document.getElementById('release').href = REPO + '/tag/' + v.tag;
+      mcSelect.value = mc;
+      langSelect.value = lang;
+    }
+
+    mcSelect.addEventListener('change', () => { mc = mcSelect.value; store('holo-mc', mc); render(); });
+    langSelect.addEventListener('change', () => { lang = langSelect.value; store('holo-lang', lang); render(); });
+    render();
+  </script>
 </body>
 </html>
