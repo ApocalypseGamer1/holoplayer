@@ -164,7 +164,7 @@
         <div><p class="kicker" data-t="quickKicker">Fastest · one click</p><h3 data-t="quickTitle">Holoplayer modpack</h3>
           <p data-t="quickText"></p>
           <p class="small" data-t="quickSmall"></p></div>
-        <a class="button" id="pack" href="Holoplayer-26.3.mrpack" download data-t="quickButton">Download modpack&nbsp; ↓</a>
+        <a class="button" id="pack" href="Holoplayer-26.3-1.8.3.mrpack" download data-t="quickButton">Download modpack 26.3 (mod 1.8.3)&nbsp; ↓</a>
       </div>
       <p class="or" data-t="or">or set it up yourself in the normal Minecraft Launcher:</p>
       <ol class="steps">
@@ -233,7 +233,7 @@
         quickTitle: 'Holoplayer modpack for {mc}',
         quickText: 'Have the <a href="https://modrinth.com/app">Modrinth App</a> or <a href="https://prismlauncher.org/">Prism Launcher</a>? Import this file and press Play. Minecraft {mc}, Fabric, both mods and both servers (North America and Europe) are set up for you.',
         quickSmall: 'Already have an older Holoplayer pack? Import this one again to get mod {mod}. Older versions do not show the win bar or the round review.',
-        quickButton: 'Download modpack {mc}&nbsp; ↓',
+        quickButton: 'Download modpack {mc} (mod {mod})&nbsp; ↓',
         or: 'or set it up yourself in the normal Minecraft Launcher:',
         s1Title: 'Install Fabric for {mc}',
         s1Text: 'Open the installer, pick Minecraft <strong>{mc}</strong>, then click <strong>Install</strong>.',
@@ -278,7 +278,7 @@
         quickTitle: 'Modpack de Holoplayer para {mc}',
         quickText: '¿Tienes la <a href="https://modrinth.com/app">Modrinth App</a> o <a href="https://prismlauncher.org/">Prism Launcher</a>? Importa este archivo y pulsa Jugar. Minecraft {mc}, Fabric, los dos mods y los dos servidores (Norteamérica y Europa) quedan listos.',
         quickSmall: '¿Ya tienes un modpack de Holoplayer más antiguo? Vuelve a importar este para tener el mod {mod}. Las versiones antiguas no muestran la barra de victoria ni la revisión de la ronda.',
-        quickButton: 'Descargar modpack {mc}&nbsp; ↓',
+        quickButton: 'Descargar modpack {mc} (mod {mod})&nbsp; ↓',
         or: 'o instálalo tú mismo en el Minecraft Launcher normal:',
         s1Title: 'Instala Fabric para {mc}',
         s1Text: 'Abre el instalador, elige Minecraft <strong>{mc}</strong> y haz clic en <strong>Install</strong>.',
@@ -332,8 +332,8 @@
       document.querySelectorAll('[data-t]').forEach(el => { el.innerHTML = fill(text[el.dataset.t]); });
       document.querySelectorAll('[data-alt]').forEach(el => { el.alt = text[el.dataset.alt]; });
       const pack = document.getElementById('pack');
-      pack.href = 'Holoplayer-' + mc + '.mrpack';
-      pack.setAttribute('download', 'Holoplayer-' + mc + '.mrpack');
+      pack.href = 'Holoplayer-' + mc + '-' + MOD + '.mrpack';
+      pack.setAttribute('download', 'Holoplayer-' + mc + '-' + MOD + '.mrpack');
       document.getElementById('api').href = 'https://modrinth.com/mod/fabric-api/versions?g=' + mc;
       document.getElementById('mod').href = REPO + '/download/' + v.tag + '/' + encodeURIComponent(v.jar);
       document.getElementById('release').href = REPO + '/tag/' + v.tag;
