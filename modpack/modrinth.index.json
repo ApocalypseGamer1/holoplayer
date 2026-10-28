@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "game": "minecraft",
-  "versionId": "1.5.0+26.3",
+  "versionId": "1.5.1+26.3",
   "name": "Holoplayer 26.3",
   "summary": "Fight an AI that plays like you. Fabric 26.3 + Fabric API + the Holoplayer Accuracy Mod, with the servers ready to join.",
   "files": [
